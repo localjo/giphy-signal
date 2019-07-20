@@ -1,40 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  COUNTER_INCREMENT,
-  COUNTER_DECREMENT,
-  COUNTER_RESET
-} from '../actions';
+import { FETCH_GIFS } from '../actions';
 export class App extends React.Component {
   render() {
-    const { increment, decrement, reset, counter } = this.props;
+    const { fetchGifs, gifs } = this.props;
     return (
       <>
-        <h1 className="header">Giphy Signal: {counter}</h1>
-        <button onClick={() => increment(1)}>Increment</button>
-        <button onClick={() => decrement(1)}>Decrement</button>
-        <button onClick={() => reset()}>Reset</button>
+        <h1 className="header">Giphy Signal</h1>
+        <button onClick={() => fetchGifs()}>Fetch GIFs</button>
+        <ul>
+          {gifs.map(gif => (
+            <li key={gif.id}>{gif.title}</li>
+          ))}
+        </ul>
       </>
     );
   }
 }
 
 App.propTypes = {
-  increment: PropTypes.func,
-  decrement: PropTypes.func,
-  reset: PropTypes.func,
-  counter: PropTypes.number
+  fetchGifs: PropTypes.func,
+  gifs: PropTypes.array
 };
 
-const mapStateToProps = ({ counter }) => {
-  return { counter };
+App.defaultProps = {
+  gifs: []
+};
+
+const mapStateToProps = ({ counter, gifs }) => {
+  return { counter, gifs };
 };
 
 const mapDispatchToProps = {
-  increment: COUNTER_INCREMENT,
-  decrement: COUNTER_DECREMENT,
-  reset: COUNTER_RESET
+  fetchGifs: FETCH_GIFS
 };
 
 export default connect(
