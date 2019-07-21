@@ -3,17 +3,35 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FETCH_GIFS } from '../actions';
 export class App extends React.Component {
+  componentDidMount() {
+    const { fetchGifs, gifs } = this.props;
+    if (!gifs || gifs.length <= 0) {
+      fetchGifs();
+    }
+  }
   render() {
     const { fetchGifs, gifs } = this.props;
+    const style = {
+      wrapper: { display: 'flex', flexWrap: 'wrap', margin: '5px 0 0 5px' },
+      image: {
+        height: '100px',
+        margin: '0 5px 5px 0',
+        flex: '1 0 auto'
+      }
+    };
     return (
       <>
-        <h1 className="header">Giphy Signal</h1>
-        <button onClick={() => fetchGifs()}>Fetch GIFs</button>
-        <ul>
+        <div style={style.wrapper}>
           {gifs.map(gif => (
-            <li key={gif.id}>{gif.title}</li>
+            <img
+              style={style.image}
+              key={gif.id}
+              src={gif.images['preview_gif'].url}
+              alt={gif.title}
+            />
           ))}
-        </ul>
+        </div>
+        <button onClick={() => fetchGifs(gifs.length + 1)}>Load More</button>
       </>
     );
   }
@@ -25,7 +43,8 @@ App.propTypes = {
 };
 
 App.defaultProps = {
-  gifs: []
+  gifs: [],
+  fetchGifs: () => {}
 };
 
 const mapStateToProps = ({ counter, gifs }) => {
@@ -33,7 +52,7 @@ const mapStateToProps = ({ counter, gifs }) => {
 };
 
 const mapDispatchToProps = {
-  fetchGifs: FETCH_GIFS
+  fetchGifs: offset => FETCH_GIFS(offset)
 };
 
 export default connect(

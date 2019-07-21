@@ -6,7 +6,10 @@ import { FETCH_GIFS_SUCCEEDED } from '../actions';
 // to allow "mutating" the state directly in the reducer
 
 export const gifReducer = createReducer([], {
-  [FETCH_GIFS_SUCCEEDED]: (state, action) => action.payload
+  [FETCH_GIFS_SUCCEEDED]: (state, action) => {
+    const { gifs, offset } = action.payload;
+    return offset > 0 ? [...state, ...gifs] : gifs;
+  }
 });
 
 const rootReducer = combineReducers({

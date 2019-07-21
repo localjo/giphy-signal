@@ -13,6 +13,11 @@ describe('GIF reducer', () => {
     expect(gifReducer(undefined, {})).toEqual([]);
   });
   it('should handle FETCH_GIFS_SUCCEEDED', () => {
-    expect(gifReducer([], FETCH_GIFS_SUCCEEDED(gifs))).toEqual(gifs);
+    expect(gifReducer([], FETCH_GIFS_SUCCEEDED({ gifs }))).toEqual(gifs);
+  });
+  it('should handle FETCH_GIFS_SUCCEEDED with offset', () => {
+    expect(
+      gifReducer([...gifs], FETCH_GIFS_SUCCEEDED({ gifs, offset: gifs.length }))
+    ).toEqual([...gifs, ...gifs]);
   });
 });
