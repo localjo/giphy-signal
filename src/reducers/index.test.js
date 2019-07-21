@@ -1,5 +1,5 @@
 import { gifReducer } from '.';
-import { FETCH_GIFS_SUCCEEDED } from '../actions';
+import { FETCH_GIFS_SUCCEEDED, FETCH_GIFS_REQUESTED } from '../actions';
 
 describe('GIF reducer', () => {
   const gifs = [
@@ -10,14 +10,27 @@ describe('GIF reducer', () => {
     }
   ];
   it('should return the initial state', () => {
-    expect(gifReducer(undefined, {})).toEqual([]);
+    expect(gifReducer(undefined, {})).toEqual({ isLoading: false, images: [] });
   });
   it('should handle FETCH_GIFS_SUCCEEDED', () => {
-    expect(gifReducer([], FETCH_GIFS_SUCCEEDED({ gifs }))).toEqual(gifs);
+    expect(
+      gifReducer(
+        { isLoading: true, images: [] },
+        FETCH_GIFS_SUCCEEDED({ gifs })
+      )
+    ).toEqual({ isLoading: false, images: gifs });
   });
   it('should handle FETCH_GIFS_SUCCEEDED with offset', () => {
     expect(
-      gifReducer([...gifs], FETCH_GIFS_SUCCEEDED({ gifs, offset: gifs.length }))
-    ).toEqual([...gifs, ...gifs]);
+      gifReducer(
+        { isLoading: true, images: [...gifs] },
+        FETCH_GIFS_SUCCEEDED({ gifs, offset: gifs.length })
+      )
+    ).toEqual({ isLoading: false, images: [...gifs, ...gifs] });
+  });
+  it('should set isLoading to true on FETCH_GIFS_REQUESTED', () => {
+    expect(
+      gifReducer({ isLoading: false, images: [] }, FETCH_GIFS_REQUESTED())
+    ).toEqual({ isLoading: true, images: [] });
   });
 });
