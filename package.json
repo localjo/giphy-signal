@@ -11,7 +11,8 @@
     "react-redux": "^7.1.0",
     "react-scripts": "3.0.1",
     "redux": "^4.0.4",
-    "redux-starter-kit": "^0.6.1"
+    "redux-starter-kit": "^0.6.1",
+    "use-debounce": "^2.2.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.17.0",

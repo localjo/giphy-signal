@@ -5,8 +5,7 @@ import {
   FETCH_GIFS_REQUESTED,
   SEARCH_GIFS_REQUESTED,
   SEARCH_GIFS_SUCCEEDED,
-  SEARCH_GIFS_FAILED,
-  SEARCH_TERM_CHANGED
+  SEARCH_GIFS_FAILED
 } from '../actions';
 
 // NOTE: redux-starter-kit uses https://github.com/immerjs/immer
@@ -29,16 +28,11 @@ export const gifReducer = createReducer(
 );
 
 export const searchReducer = createReducer(
-  { term: '', results: {} },
+  { results: {} },
   {
-    [SEARCH_TERM_CHANGED]: (state, { payload: { term } }) => {
-      state.term = term;
+    [SEARCH_GIFS_REQUESTED]: (state, { payload: { term } }) => {
       state.results[term] = state.results[term] || {};
       state.results[term].images = state.results[term].images || [];
-      state.results[term].isLoading = false;
-      return state;
-    },
-    [SEARCH_GIFS_REQUESTED]: (state, { payload: { term } }) => {
       state.results[term].isLoading = true;
       return state;
     },

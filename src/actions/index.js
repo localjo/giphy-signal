@@ -4,8 +4,6 @@ import axios from 'axios';
 export const FETCH_GIFS_REQUESTED = createAction('FETCH_GIFS_REQUESTED');
 export const FETCH_GIFS_SUCCEEDED = createAction('FETCH_GIFS_SUCCEEDED');
 export const FETCH_GIFS_FAILED = createAction('FETCH_GIFS_FAILED');
-
-export const SEARCH_TERM_CHANGED = createAction('SEARCH_TERM_CHANGED');
 export const SEARCH_GIFS_REQUESTED = createAction('SEARCH_GIFS_REQUESTED');
 export const SEARCH_GIFS_SUCCEEDED = createAction('SEARCH_GIFS_SUCCEEDED');
 export const SEARCH_GIFS_FAILED = createAction('SEARCH_GIFS_FAILED');
