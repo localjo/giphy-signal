@@ -3,6 +3,7 @@ import { useDebounce } from 'use-debounce';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FETCH_GIFS, SEARCH_GIFS, SET_FULLSCREEN } from '../actions';
+import './App.css';
 
 export const App = ({
   fetchGifs,
@@ -21,14 +22,6 @@ export const App = ({
   const endOfResults = document.querySelector('#end-of-results');
   const numberOfGifs = images.length;
   const hasGifs = numberOfGifs >= 1;
-  const style = {
-    wrapper: { display: 'flex', flexWrap: 'wrap', margin: '5px 0 0 5px' },
-    image: {
-      height: '100px',
-      margin: '0 5px 5px 0',
-      flex: '1 0 auto'
-    }
-  };
   function getIsVisible(el) {
     const elOffset = el.offsetTop + el.clientHeight;
     const pageOffset = window.pageYOffset + window.innerHeight;
@@ -72,53 +65,28 @@ export const App = ({
   return (
     <>
       {fullscreen && fullscreen.length > 0 ? (
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            background: 'rgba(20,20,20,0.8)'
-          }}
-        >
-          <img
-            src={fullscreen}
-            alt=""
-            style={{
-              display: 'block',
-              margin: 'auto',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              position: 'relative'
-            }}
-          />
-          <button
-            style={{
-              position: 'absolute',
-              right: '10px',
-              top: '10px',
-              zIndex: 100
-            }}
+        <div className="fullscreen-wrapper">
+          <img src={fullscreen} alt="" className="fullscreen-image" />
+          <span
+            className="fullscreen-button"
             onClick={e => {
               setFullScreen('');
             }}
           >
-            Close
-          </button>
+            &times;
+          </span>
         </div>
       ) : null}
       <input
+        className="search-box"
         type="text"
         placeholder="Search for a GIF..."
         onChange={e => setTerm(e.target.value)}
       />
-      <div style={style.wrapper}>
+      <div className="wrapper">
         {imagesToDisplay.map(gif => (
           <img
-            style={style.image}
+            className="image"
             key={gif.id}
             src={gif.images['preview_gif'].url}
             alt={gif.title}
