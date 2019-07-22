@@ -5,11 +5,14 @@
 A list of Giphy's trending GIFs and a search bar that allows you to search for
 GIFs and then view them in full-screen mode.
 
+![Screenshot](screenshot.png)
+
 ## Usage
 
 ```
 npm start
 ```
+
 Open [http://localhost:3000](http://localhost:3000) in a browser.
 
 ## Install
@@ -23,4 +26,3 @@ $ npm install giphy-signal
 ## License
 
 [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
-
