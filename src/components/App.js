@@ -2,9 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FETCH_GIFS, SEARCH_GIFS } from '../actions';
+import { FETCH_GIFS, SEARCH_GIFS, SET_FULLSCREEN } from '../actions';
 
-export const App = ({ fetchGifs, searchGifs, gifs, search }) => {
+export const App = ({
+  fetchGifs,
+  searchGifs,
+  setFullScreen,
+  fullscreen,
+  gifs,
+  search
+}) => {
   const [term, setTerm] = useState('');
   const debouncedTerm = useDebounce(term, 500)[0];
   const hasDebouncedTerm = debouncedTerm && debouncedTerm.length > 0;
@@ -64,6 +71,45 @@ export const App = ({ fetchGifs, searchGifs, gifs, search }) => {
       : gifs;
   return (
     <>
+      {fullscreen && fullscreen.length > 0 ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            background: 'rgba(20,20,20,0.8)'
+          }}
+        >
+          <img
+            src={fullscreen}
+            alt=""
+            style={{
+              display: 'block',
+              margin: 'auto',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              position: 'relative'
+            }}
+          />
+          <button
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '10px',
+              zIndex: 100
+            }}
+            onClick={e => {
+              setFullScreen('');
+            }}
+          >
+            Close
+          </button>
+        </div>
+      ) : null}
       <input
         type="text"
         placeholder="Search for a GIF..."
@@ -76,6 +122,9 @@ export const App = ({ fetchGifs, searchGifs, gifs, search }) => {
             key={gif.id}
             src={gif.images['preview_gif'].url}
             alt={gif.title}
+            onClick={e => {
+              setFullScreen(gif.images['original'].url);
+            }}
           />
         ))}
       </div>
@@ -87,24 +136,29 @@ export const App = ({ fetchGifs, searchGifs, gifs, search }) => {
 App.propTypes = {
   fetchGifs: PropTypes.func,
   searchGifs: PropTypes.func,
+  setFullScreen: PropTypes.func,
   gifs: PropTypes.object,
-  search: PropTypes.object
+  search: PropTypes.object,
+  fullscreen: PropTypes.string
 };
 
 App.defaultProps = {
   gifs: { isLoading: false, images: [] },
-  search: { term: '', results: {} },
+  search: { results: {} },
+  fullscreen: '',
   fetchGifs: () => {},
-  searchGifs: () => {}
+  searchGifs: () => {},
+  setFullScreen: () => {}
 };
 
-const mapStateToProps = ({ gifs, search }) => {
-  return { gifs, search };
+const mapStateToProps = ({ gifs, search, fullscreen }) => {
+  return { gifs, search, fullscreen };
 };
 
 const mapDispatchToProps = {
   fetchGifs: offset => FETCH_GIFS(offset),
-  searchGifs: (term, offset) => SEARCH_GIFS(term, offset)
+  searchGifs: (term, offset) => SEARCH_GIFS(term, offset),
+  setFullScreen: url => SET_FULLSCREEN(url)
 };
 
 export default connect(

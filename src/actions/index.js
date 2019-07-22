@@ -1,6 +1,7 @@
 import { createAction } from 'redux-starter-kit';
 import axios from 'axios';
 
+export const SET_FULLSCREEN = createAction('SET_FULLSCREEN');
 export const FETCH_GIFS_REQUESTED = createAction('FETCH_GIFS_REQUESTED');
 export const FETCH_GIFS_SUCCEEDED = createAction('FETCH_GIFS_SUCCEEDED');
 export const FETCH_GIFS_FAILED = createAction('FETCH_GIFS_FAILED');

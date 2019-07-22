@@ -5,7 +5,8 @@ import {
   FETCH_GIFS_REQUESTED,
   SEARCH_GIFS_REQUESTED,
   SEARCH_GIFS_SUCCEEDED,
-  SEARCH_GIFS_FAILED
+  SEARCH_GIFS_FAILED,
+  SET_FULLSCREEN
 } from '../actions';
 
 // NOTE: redux-starter-kit uses https://github.com/immerjs/immer
@@ -50,9 +51,16 @@ export const searchReducer = createReducer(
   }
 );
 
+export const fullscreenReducer = createReducer('', {
+  [SET_FULLSCREEN]: (state, { payload }) => {
+    return payload;
+  }
+});
+
 const rootReducer = combineReducers({
   gifs: gifReducer,
-  search: searchReducer
+  search: searchReducer,
+  fullscreen: fullscreenReducer
 });
 
 export default rootReducer;
