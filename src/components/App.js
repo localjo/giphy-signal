@@ -1,10 +1,19 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FETCH_GIFS } from '../actions';
+import { FETCH_GIFS, SEARCH_GIFS, SEARCH_TERM_CHANGED } from '../actions';
 
-export const App = ({ fetchGifs, gifs }) => {
-  const { images, isLoading } = gifs;
+export const App = ({
+  fetchGifs,
+  searchGifs,
+  changeSearchTerm,
+  gifs,
+  search
+}) => {
+  const { term } = search;
+  const hasSearchTerm = term && term.length >= 1;
+  const imageSet = hasSearchTerm ? search.results[term] : gifs;
+  const { images, isLoading } = imageSet;
   const endOfResults = document.querySelector('#end-of-results');
   const numberOfGifs = images.length;
   const hasGifs = numberOfGifs >= 1;
@@ -25,14 +34,22 @@ export const App = ({ fetchGifs, gifs }) => {
 
   function handleScroll() {
     if (!isLoading && getIsVisible(endOfResults)) {
-      fetchGifs(numberOfGifs + 1);
+      if (hasSearchTerm) {
+        searchGifs(term, numberOfGifs + 1);
+      } else {
+        fetchGifs(numberOfGifs + 1);
+      }
     }
   }
 
   useEffect(() => {
     const hasSpace = !hasGifs || getIsVisible(endOfResults);
     if (!isLoading && hasSpace) {
-      fetchGifs(hasGifs ? numberOfGifs + 1 : 0);
+      if (hasSearchTerm) {
+        searchGifs(term, hasGifs ? numberOfGifs + 1 : 0);
+      } else {
+        fetchGifs(hasGifs ? numberOfGifs + 1 : 0);
+      }
     }
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -40,6 +57,14 @@ export const App = ({ fetchGifs, gifs }) => {
 
   return (
     <>
+      <input
+        type="text"
+        placeholder="Search for a GIF..."
+        value={term}
+        onChange={e => {
+          changeSearchTerm(e.target.value);
+        }}
+      />
       <div style={style.wrapper}>
         {images.map(gif => (
           <img
@@ -57,20 +82,28 @@ export const App = ({ fetchGifs, gifs }) => {
 
 App.propTypes = {
   fetchGifs: PropTypes.func,
-  gifs: PropTypes.object
+  searchGifs: PropTypes.func,
+  changeSearchTerm: PropTypes.func,
+  gifs: PropTypes.object,
+  search: PropTypes.object
 };
 
 App.defaultProps = {
   gifs: { isLoading: false, images: [] },
-  fetchGifs: () => {}
+  search: { term: '', results: {} },
+  fetchGifs: () => {},
+  searchGifs: () => {},
+  changeSearchTerm: () => {}
 };
 
-const mapStateToProps = ({ gifs }) => {
-  return { gifs };
+const mapStateToProps = ({ gifs, search }) => {
+  return { gifs, search };
 };
 
 const mapDispatchToProps = {
-  fetchGifs: offset => FETCH_GIFS(offset)
+  fetchGifs: offset => FETCH_GIFS(offset),
+  searchGifs: (term, offset) => SEARCH_GIFS(term, offset),
+  changeSearchTerm: term => SEARCH_TERM_CHANGED({ term })
 };
 
 export default connect(
