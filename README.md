@@ -23,6 +23,14 @@ With [npm](https://npmjs.org/) installed, run
 $ npm install giphy-signal
 ```
 
+## Testing
+
+You can run all of the tests with
+
+```
+$ npm test
+```
+
 ## License
 
 [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
