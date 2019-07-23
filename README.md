@@ -19,8 +19,8 @@ Then start the app with `npm start` and open
 
 ## Testing
 
-This app has tests for components, actions and reducers.
-You can run all of the tests with `npm test`.`
+This app has tests for components, actions and reducers. You can run all of the
+tests with `npm test`. To check test coverage, you can use `npm run coverage`.
 
 ## Deployment
 
