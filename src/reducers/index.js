@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { createReducer } from 'redux-starter-kit';
+import uniqBy from 'lodash/uniqBy';
 import {
   FETCH_GIFS_SUCCEEDED,
   FETCH_GIFS_REQUESTED,
@@ -22,7 +23,8 @@ export const gifReducer = createReducer(
     [FETCH_GIFS_SUCCEEDED]: (state, action) => {
       const { gifs, offset } = action.payload;
       state.isLoading = false;
-      state.images = offset > 0 ? state.images.concat(gifs) : gifs;
+      state.images =
+        offset > 0 ? uniqBy(state.images.concat(gifs), 'id') : gifs;
       return state;
     }
   }

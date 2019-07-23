@@ -9,6 +9,13 @@ describe('GIF reducer', () => {
       url: 'https://giphy.com/gifs/JrGlLg0Ycz3XrufJ40'
     }
   ];
+  const gifs2 = [
+    {
+      type: 'gif',
+      id: '2',
+      url: 'https://giphy.com/gifs/JrGlLg0Ycz3XrufJ40'
+    }
+  ];
   it('should return the initial state', () => {
     expect(gifReducer(undefined, {})).toEqual({ isLoading: false, images: [] });
   });
@@ -24,9 +31,9 @@ describe('GIF reducer', () => {
     expect(
       gifReducer(
         { isLoading: true, images: [...gifs] },
-        FETCH_GIFS_SUCCEEDED({ gifs, offset: gifs.length })
+        FETCH_GIFS_SUCCEEDED({ gifs: gifs2, offset: gifs.length })
       )
-    ).toEqual({ isLoading: false, images: [...gifs, ...gifs] });
+    ).toEqual({ isLoading: false, images: [...gifs, ...gifs2] });
   });
   it('should set isLoading to true on FETCH_GIFS_REQUESTED', () => {
     expect(
