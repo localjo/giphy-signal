@@ -89,6 +89,8 @@ export const App = ({
             className="image"
             key={gif.id}
             src={gif.images['preview_gif'].url}
+            width={gif.images['preview_gif'].width}
+            height={gif.images['preview_gif'].height}
             alt={gif.title}
             onClick={e => {
               setFullScreen(gif.images['original'].url);
