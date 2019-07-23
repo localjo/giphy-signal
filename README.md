@@ -7,29 +7,26 @@ GIFs and then view them in full-screen mode.
 
 ![Screenshot](screenshot.png)
 
-## Usage
+## Development
 
-```
-npm start
-```
+Clone the repository and install dependencies with `npm install`.
 
-Open [http://localhost:3000](http://localhost:3000) in a browser.
+Before you start the app, get a Giphy API key and store it in the environment
+varibale `REACT_APP_GIPHY_API_KEY`.
 
-## Install
-
-With [npm](https://npmjs.org/) installed, run
-
-```
-$ npm install giphy-signal
-```
+Then start the app with `npm start` and open
+[http://localhost:3000](http://localhost:3000) in a browser.
 
 ## Testing
 
-You can run all of the tests with
+This app has tests for components, actions and reducers.
+You can run all of the tests with `npm test`.`
 
-```
-$ npm test
-```
+## Deployment
+
+This app can be quickly [deployed with Heroku](https://medium.com/@WebDevRaj/deploy-a-react-app-on-heroku-the-right-way-e17333d29169).
+Don't forget to store the Giphy API key in the `REACT_APP_GIPHY_API_KEY`
+environment variable.
 
 ## License
 
