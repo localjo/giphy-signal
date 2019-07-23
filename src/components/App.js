@@ -84,19 +84,22 @@ export const App = ({
         onChange={e => setTerm(e.target.value)}
       />
       <div className="wrapper">
-        {imagesToDisplay.map(gif => (
-          <img
-            className="image"
-            key={gif.id}
-            src={gif.images['preview_gif'].url}
-            width={gif.images['preview_gif'].width}
-            height={gif.images['preview_gif'].height}
-            alt={gif.title}
-            onClick={e => {
-              setFullScreen(gif.images['original'].url);
-            }}
-          />
-        ))}
+        {imagesToDisplay.map(gif => {
+          const { url, width, height } = gif.images['preview_gif'];
+          return (
+            <img
+              className="image"
+              key={gif.id}
+              src={url}
+              width={width / (height / 100)}
+              height="100"
+              alt={gif.title}
+              onClick={() => {
+                setFullScreen(gif.images['original'].url);
+              }}
+            />
+          );
+        })}
       </div>
       <p id={'end-of-results'}>{isLoading ? 'Loading...' : 'The end!'}</p>
     </>
